@@ -1,0 +1,7 @@
+# Create common configuration for interfaces
+  - name: Create common configs for spines and leafs
+    hosts: leafs_DC1, leafs_DC2, spines_DC1, spines_DC2
+    tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{lookup('env','PWD')}}/vars/underlay.yml"
