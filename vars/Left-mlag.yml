@@ -1,0 +1,21 @@
+# Left-mlag.yml
+
+mlag_switches:
+  borderleaf1-DC1:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"
+  borderleaf1-DC2:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"
+  leaf1-DC1:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"
+  leaf1-DC2:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"
+  leaf3-DC1:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"
+  leaf3-DC2:
+    vlan4094_ip: "192.168.255.1/30"
+    peer_address: "192.168.255.2"

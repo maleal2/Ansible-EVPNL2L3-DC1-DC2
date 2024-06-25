@@ -1,0 +1,22 @@
+---
+- name: Include MLAG Configuration
+  hosts: leafs_DC1, leafs_DC2
+  tasks:
+    - name: Include MLAG Variables
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/Right-mlag.yml"
+        name: mlag_vars
+
+    - name: Debug MLAG Variables
+      debug:
+        var: mlag_vars  # Print out the loaded variables for verification
+
+    - name: Configure MLAG
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Right-mlag.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_mlag.cfg"
+      vars:
+        vlan4094_ip: "{{ mlag_vars.mlag_switches[inventory_hostname].vlan4094_ip }}"
+        peer_address: "{{ mlag_vars.mlag_switches[inventory_hostname].peer_address }}"
+
+
