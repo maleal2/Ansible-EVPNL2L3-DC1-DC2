@@ -1,0 +1,20 @@
+---
+# Creating Underlay BGP configuration for Leafs
+
+- name: Create leaf configurations for BGP underlay 
+  hosts: leafs_DC1, leafs_DC2
+  tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/underlay.yml"
+        name: underlay
+
+    - name: Configure BGP Underlay
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/bgp_Undelay_Leaf.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_bgp_Undelay_Leaf.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_bgp_Undelay_Leaf.cfg"
+
