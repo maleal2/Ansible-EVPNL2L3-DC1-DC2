@@ -1,0 +1,8 @@
+Tenants:
+  customer-1:
+    L3VNI: 5100
+    L2VNI:
+      DMZ:
+        VNID: 100
+        VLANID: 100
+        SVI: 172.16.100.1/24

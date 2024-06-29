@@ -1,0 +1,24 @@
+---
+# Creating VXLAN configuration for Leafs34 in DC1
+
+- name: Create leaf configurations for underlay and VXLAN tenants
+  hosts: leaf3-DC1, leaf4-DC1,leaf3-DC2, leaf4-DC2
+  tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/underlay.yml"
+        name: underlay
+
+    - name: Register VXLAN variables
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/Leaf34_VXLAN.yml"
+        name: VXLAN
+
+    - name: Create VXLAN Configuration
+      template: 
+        src: "{{ lookup('env', 'PWD') }}/templates/Leaf_VXLAN.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf34_VXLAN.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf34_VXLAN.cfg"
