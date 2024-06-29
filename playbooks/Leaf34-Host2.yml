@@ -1,0 +1,16 @@
+---
+# Creating Leaf34 connections to Host2 configurations
+
+- name: Creating Leaf34 connections to Host2
+  hosts: leaf3-DC1, leaf4-DC1,leaf3-DC2, leaf4-DC2
+  tasks: 
+
+    - name: Create Interface config
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Leaf34-Host2.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf34-Host2.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf34-Host2.cfg"
+

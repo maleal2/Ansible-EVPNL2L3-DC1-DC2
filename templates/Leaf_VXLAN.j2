@@ -1,3 +1,4 @@
+ip virtual-router mac-address 00:1c:73:00:00:01
 no spanning-tree vlan-id 3094
 
 !vrf
@@ -26,11 +27,11 @@ no spanning-tree vlan-id 3094
   {% if underlay[inventory_hostname]['MLAG'] == "Odd" %}
     interface vlan 3094
       vrf {{ Tenant }}
-      ip address virtual 172.16.13.0/24
+      ip address virtual 172.16.13.0/31
   {% else %}
     interface vlan 3094
       vrf {{ Tenant }}
-      ip address virtual 172.16.13.1/24
+      ip address virtual 172.16.13.1/31 
   {% endif %}
 {% endfor %}
 

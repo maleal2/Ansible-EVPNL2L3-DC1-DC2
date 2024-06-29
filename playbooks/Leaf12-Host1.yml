@@ -1,0 +1,16 @@
+---
+# Creating Leaf12 connections to Host1 configurations
+
+- name: Creating Leaf12 connections to Host1
+  hosts: leaf1-DC1, leaf2-DC1,leaf1-DC2, leaf2-DC2
+  tasks: 
+
+    - name: Create Interface config
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Leaf12-Host1.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf12-Host1.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf12-Host1.cfg"
+
