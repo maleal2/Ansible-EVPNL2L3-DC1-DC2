@@ -1,0 +1,20 @@
+---
+# Creating Underlay BGP configuration for Spines
+
+  - name: Create spine "DC1" configurations for underlay
+    hosts: spines_DC1
+    tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{lookup('env','PWD')}}/vars/underlay.yml"
+        name: underlay
+
+    - name: Configure BGP Underlay
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Spines_BGP_underlay.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Spines_BGP_underlay.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Spines_BGP_underlay.cfg"
+

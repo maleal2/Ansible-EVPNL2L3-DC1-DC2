@@ -17,7 +17,7 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
    maximum-paths 3
    distance bgp 20 200 200
 
-
+   no neighbor Underlay peer group  
    neighbor SPINE_Underlay peer group  
    neighbor SPINE_Underlay remote-as {{ underlay[inventory_hostname]['BGP']['spine-ASN'] }}
    neighbor SPINE_Underlay send-community
@@ -37,3 +37,8 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
    {% else %}
    neighbor 192.168.255.1 peer group LEAF_Peer
 {% endif %}
+
+    address-family ipv4
+      neighbor SPINE_Underlay activate
+      neighbor LEAF_Peer activate
+      redistribute connected route-map LOOPBACK
