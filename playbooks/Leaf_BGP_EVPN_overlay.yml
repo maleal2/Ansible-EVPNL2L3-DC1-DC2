@@ -1,0 +1,20 @@
+---
+# Creating Overlay BGP EVPN configuration for Leafs
+
+- name: Create Overlay BGP EVPN configuration for Leafs
+  hosts: leaf1-DC1, leaf2-DC1,leaf3-DC1,leaf4-DC1
+  tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/underlay.yml"
+        name: underlay
+
+    - name: Configure BGP Underlay
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Leaf_BGP_EVPN_overlay.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf_BGP_EVPN_overlay.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Leaf_BGP_EVPN_overlay.cfg"
+

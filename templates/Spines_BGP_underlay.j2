@@ -21,7 +21,7 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
 
 
    bgp listen range {{ underlay['global']['DC1']['p2p']}} peer-group LEAF_Underlay peer-filter LEAF-AS-RANGE
-   no bgp listen range {{ underlay['global']['DC2']['p2p']}} peer-group LEAF_Underlay peer-filter LEAF-AS-RANGE
+   
    neighbor LEAF_Underlay peer group
    neighbor LEAF_Underlay send-community
    neighbor LEAF_Underlay maximum-routes 12000

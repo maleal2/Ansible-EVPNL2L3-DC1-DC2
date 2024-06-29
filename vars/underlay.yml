@@ -225,7 +225,7 @@ borderleaf1-DC1:
 borderleaf2-DC1:
   interfaces:
     loopback0: 
-      ipv4: 192.168.101.21
+      ipv4: 192.168.101.22
       mask: 32
     loopback1: 
       ipv4: 192.168.102.21
@@ -461,7 +461,7 @@ borderleaf1-DC2:
 borderleaf2-DC2:
   interfaces:
     loopback0: 
-      ipv4: 192.168.201.21
+      ipv4: 192.168.201.22
       mask: 32
     loopback1: 
       ipv4: 192.168.202.21

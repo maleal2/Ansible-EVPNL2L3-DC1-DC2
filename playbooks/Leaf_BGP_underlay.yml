@@ -2,7 +2,7 @@
 # Creating Underlay BGP configuration for Leafs
 
 - name: Create leaf configurations for BGP underlay 
-  hosts: leafs_DC1, leafs_DC2
+  hosts: leaf1-DC1, leaf2-DC1,leaf3-DC1,leaf4-DC1,leaf1-DC2, leaf2-DC2,leaf3-DC2,leaf4-DC2
   tasks: 
     - name: Register variables (underlay)
       include_vars:

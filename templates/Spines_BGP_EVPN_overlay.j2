@@ -1,0 +1,18 @@
+
+router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
+
+   neighbor EVPN peer group
+
+   bgp listen range {{ underlay['global']['DC1']['lo0']}} peer-group EVPN peer-filter LEAF-AS-RANGE
+ 
+  
+   neighbor EVPN ebgp-multihop 3
+   neighbor EVPN send-community
+   neighbor EVPN maximum-routes 0
+
+
+   address-family evpn
+     neighbor EVPN activate
+
+   address-family ipv4
+     no neighbor EVPN activate

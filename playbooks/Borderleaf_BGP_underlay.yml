@@ -1,0 +1,20 @@
+---
+# Creating  BGP Underlay configuration for Bordeleafs
+
+- name: Create Borderleaf configurations for BGP  Underlay
+  hosts: borderleaf1-DC1,borderleaf2-DC1,borderleaf1-DC2,borderleaf2-DC2
+  tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/underlay.yml"
+        name: underlay
+
+    - name: Configure BGP Underlay
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Borderleaf_BGP_underlay.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Borderleaf_BGP_underlay.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Borderleaf_BGP_underlay.cfg"
+

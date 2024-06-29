@@ -1,0 +1,20 @@
+---
+# Creating Overlay BGP EVPN configuration for BorderLeafs
+
+- name: Create Overlay BGP EVPN configuration for BorderLeafs
+  hosts: borderleaf1-DC2,borderleaf2-DC2
+  tasks: 
+    - name: Register variables (underlay)
+      include_vars:
+        file: "{{ lookup('env', 'PWD') }}/vars/underlay.yml"
+        name: underlay
+
+    - name: Configure BGP Underlay
+      template:
+        src: "{{ lookup('env', 'PWD') }}/templates/Borderleaf-DC2_BGP_EVPN_overlay.j2"
+        dest: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Borderleaf-DC2_BGP_EVPN_overlay.cfg"
+
+    - name: Upload config
+      eos_config:
+        src: "{{ lookup('env', 'PWD') }}/configs/{{ inventory_hostname }}/{{ inventory_hostname }}_Borderleaf-DC2_BGP_EVPN_overlay.cfg"
+

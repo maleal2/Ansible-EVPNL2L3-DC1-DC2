@@ -17,7 +17,6 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
    maximum-paths 3
    distance bgp 20 200 200
 
- 
    neighbor SPINE_Underlay peer group  
    neighbor SPINE_Underlay remote-as {{ underlay[inventory_hostname]['BGP']['spine-ASN'] }}
    neighbor SPINE_Underlay send-community
@@ -28,10 +27,20 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
    neighbor LEAF_Peer next-hop-self
    neighbor LEAF_Peer maximum-routes 12000
 
+   neighbor DCI peer group
+   neighbor DCI remote-as 65000
+   neighbor DCI send-community
+   neighbor DCI maximum-routes 12000
 
+   redistribute connected route-map LOOPBACK
 {% for peer in underlay[inventory_hostname]['BGP']['spine-peers'] %}
    neighbor {{ peer }} peer group SPINE_Underlay
-{% endfor %}   
+{% endfor %}
+
+{% for peer in underlay[inventory_hostname]['BGP']['DCI-peers'] %}
+   neighbor {{ peer }} peer group DCI
+{% endfor %}    
+
 {% if underlay[inventory_hostname]['MLAG'] == "Odd" %}
    neighbor 192.168.255.2 peer group LEAF_Peer
    {% else %}
@@ -41,4 +50,8 @@ router bgp {{ underlay[inventory_hostname]['BGP']['ASN'] }}
     address-family ipv4
       neighbor SPINE_Underlay activate
       neighbor LEAF_Peer activate
+      neighbor DCI activate
       redistribute connected route-map LOOPBACK
+
+
+      
